@@ -1,4 +1,5 @@
 import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
 import { useEffect, useState } from "react";
 import "../styles.css";
 import SavedMeme from "./SavedMeme";
@@ -9,7 +10,8 @@ export default function Meme() {
         bottomText: "",
         randomImage: "https://i.imgflip.com/23ls.jpg",
         altText: "",
-        memeId: ""
+        memeId: "",
+        isEditMode: false
     })
 
     const [allMemes, setAllMemes] = useState([])
@@ -24,12 +26,10 @@ export default function Meme() {
         const randomNumber = Math.floor(Math.random() * allMemes.length)
         const url = allMemes[randomNumber].url
         const alt = allMemes[randomNumber].name
-        const id = allMemes[randomNumber].id
         setMeme(prevMeme => ({
             ...prevMeme,
             randomImage: url,
-            altText: alt,
-            memeId: id
+            altText: alt
         }))
     }
 
@@ -44,14 +44,40 @@ export default function Meme() {
     const [memeList, setMemeList] = useState([])
 
     function addMeme() {
-        setMemeList(prevMemeList => [...prevMemeList, meme])
+        setMemeList(prevMemeList => [...prevMemeList, {
+            ...meme,
+            memeId: uuidv4()
+        }])
+    }
+
+    function removeMeme(id) {
+        const newMemeList = memeList.filter((meme) => meme.memeId !== id)
+
+        setMemeList(newMemeList)
+    }
+
+    function editMeme(id) {
+        setMemeList(prevMemeList => {
+            return prevMemeList.map((currentMeme) => {
+                console.log(currentMeme.memeId)
+                return currentMeme.memeId === id ? {
+                    ...currentMeme,
+                    isEditMode: !currentMeme.isEditMode
+                } :
+                    currentMeme
+            })
+        })
     }
 
     const memeListElements = memeList.map(function (savedMeme) {
         return (
             <SavedMeme
-                key={meme.memeId}
+                key={savedMeme.memeId}
+                id={savedMeme.memeId}
                 savedMeme={savedMeme}
+                handleRemove={removeMeme}
+                handleEdit={editMeme}
+                isToEdit={savedMeme.isEditMode}
             />
         )
     })
@@ -84,8 +110,8 @@ export default function Meme() {
             </div>
             <div className="meme">
                 <img src={meme.randomImage} alt={meme.altText} className="meme-image" />
-                <h3>{meme.topText}</h3>
-                <h3>{meme.bottomText}</h3>
+                <h3 className="meme-text meme-top-text">{meme.topText}</h3>
+                <h3 className="meme-text meme-bottom-text">{meme.bottomText}</h3>
             </div>
             <button
                 onClick={addMeme}
