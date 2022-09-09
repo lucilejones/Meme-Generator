@@ -28,12 +28,49 @@ body {
     padding-bottom: 10px;
 }
 
+.meme {
+    position: relative;
+    width: 500px;
+    display: flex;
+    justify-content: center;
+}
+
 .meme-text {
-    font-family: 'Cabin', sans-serif;
+    /* font-family: 'Cabin', sans-serif; */
+    font-family: impact, sans-serif;
+    font-size: 35px;
+    text-transform: uppercase;
+    color: white;
+    position: absolute;
+    width: 80%;
+    text-align: center;
+    left: 50%;
+    transform: translateX(-50%);
+    margin: 15px 0;
+    padding: 0 5px;
+    letter-spacing: 1px;
+    text-shadow:
+        2px 2px 0 #000,
+        -2px -2px 0 #000,
+        2px -2px 0 #000,
+        -2px 2px 0 #000,
+        0 2px 0 #000,
+        2px 0 0 #000,
+        0 -2px 0 #000,
+        -2px 0 0 #000,
+        2px 2px 5px #000;
+}
+
+.meme-top-text {
+    top: 0px;
+}
+
+.meme-bottom-text {
+    bottom: 0px;
 }
 
 .meme-image {
-    max-width: 100px;
+    max-width: 400px;
 }
 
 @media screen and (min-width: 55em) {
