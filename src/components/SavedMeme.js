@@ -28,11 +28,11 @@ export default function SavedMeme(props) {
         <div>
             {
                 props.isToEdit ?
-                    <div>
+                    <div className="meme saved">
                         <input
                             type="text"
                             // placeholder={props.savedMeme.topText}
-                            className="form-input"
+                            className="form-input edit-mode top"
                             name="topText"
                             value={newMeme.topText}
                             onChange={handleMemeChange}
@@ -40,23 +40,27 @@ export default function SavedMeme(props) {
                         <input
                             type="text"
                             // placeholder={props.savedMeme.bottomText}
-                            className="form-input"
+                            className="form-input edit-mode bottom"
                             name="bottomText"
                             value={newMeme.bottomText}
                             onChange={handleMemeChange}
                         />
-                        <img src={props.savedMeme.randomImage} alt={props.savedMeme.altText} />
-                        <button onClick={handleMemeEdit}>Save</button>
+                        <img src={props.savedMeme.randomImage} alt={props.savedMeme.altText} className="meme-image" />
+                        <div className="save-button-container">
+                            <button onClick={handleMemeEdit} className="meme-button">Save</button>
+                        </div>
+
                     </div> :
-                    <div>
+                    <div className="meme-plus-buttons saved">
                         <div className="meme">
-                            <img src={props.savedMeme.randomImage} alt={props.savedMeme.altText} />
+                            <img src={props.savedMeme.randomImage} alt={props.savedMeme.altText} className="meme-image" />
                             <p className="meme-text meme-top-text">{props.savedMeme.topText}</p>
                             <p className="meme-text meme-bottom-text">{props.savedMeme.bottomText}</p>
                         </div>
-
-                        <button onClick={() => props.handleEdit(props.id)}>Edit</button>
-                        <button onClick={() => props.handleRemove(props.id)}>Delete</button>
+                        <div className="button-container">
+                            <button onClick={() => props.handleEdit(props.id)} className="meme-button">Edit</button>
+                            <button onClick={() => props.handleRemove(props.id)} className="meme-button">Delete</button>
+                        </div>
                     </div>
             }
         </div>
