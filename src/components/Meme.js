@@ -48,6 +48,14 @@ export default function Meme() {
             ...meme,
             memeId: uuidv4()
         }])
+
+        setMeme(prevMeme => ({
+            ...prevMeme,
+            topText: "",
+            bottomText: "",
+            altText: "",
+            memeId: "",
+        }))
     }
 
     function removeMeme(id) {
@@ -59,7 +67,6 @@ export default function Meme() {
     function editMeme(id) {
         setMemeList(prevMemeList => {
             return prevMemeList.map((currentMeme) => {
-                console.log(currentMeme.memeId)
                 return currentMeme.memeId === id ? {
                     ...currentMeme,
                     isEditMode: !currentMeme.isEditMode
@@ -84,41 +91,46 @@ export default function Meme() {
 
     return (
         <main>
-            <div className="form">
-                <input
-                    type="text"
-                    placeholder="Top text"
-                    className="form-input"
-                    name="topText"
-                    value={meme.topText}
-                    onChange={handleChange}
-                />
-                <input
-                    type="text"
-                    placeholder="Bottom text"
-                    className="form-input"
-                    name="bottomText"
-                    value={meme.bottomText}
-                    onChange={handleChange}
-                />
-                <button
-                    className="form-button"
-                    onClick={refreshMemeImage}
-                >
-                    Refresh Meme Image
-                </button>
+            <div className="build-meme-container">
+                <div className="form">
+                    <input
+                        type="text"
+                        placeholder="Top text"
+                        className="form-input"
+                        name="topText"
+                        value={meme.topText}
+                        onChange={handleChange}
+                    />
+                    <input
+                        type="text"
+                        placeholder="Bottom text"
+                        className="form-input"
+                        name="bottomText"
+                        value={meme.bottomText}
+                        onChange={handleChange}
+                    />
+                    <button
+                        className="refresh-button"
+                        onClick={refreshMemeImage}
+                    >
+                        Refresh Meme Image
+                    </button>
+                    <button
+                        className="add-button"
+                        onClick={addMeme}
+                    >
+                        Add Meme to List
+                    </button>
+                </div>
+
+                <div className="meme">
+                    <img src={meme.randomImage} alt={meme.altText} className="meme-image" />
+                    <h3 className="meme-text meme-top-text">{meme.topText}</h3>
+                    <h3 className="meme-text meme-bottom-text">{meme.bottomText}</h3>
+                </div>
             </div>
-            <div className="meme">
-                <img src={meme.randomImage} alt={meme.altText} className="meme-image" />
-                <h3 className="meme-text meme-top-text">{meme.topText}</h3>
-                <h3 className="meme-text meme-bottom-text">{meme.bottomText}</h3>
-            </div>
-            <button
-                onClick={addMeme}
-            >
-                Add Meme to List
-            </button>
-            <div>{memeListElements}</div>
+
+            <div className="saved-memes-container">{memeListElements}</div>
         </main>
     )
 }
